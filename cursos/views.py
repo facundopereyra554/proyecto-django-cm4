@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import *
 from datetime import date
+from .forms.curso_form import CursoForm
+from  django.shortcuts import redirect
 
 
 
@@ -74,7 +76,7 @@ def curso_detail(request, curso_id):
     curso_data = {
         "id": curso.id,
         "nombre": curso.nombre,
-        "description": curso.descripcion,
+        "descripcion": curso.descripcion,
         "imagen": f"img/{curso.categoria.color}.png",
         "precio": curso.precio,
         "fecha_prublicacion": curso.fecha_publicacion,
@@ -87,3 +89,39 @@ def curso_detail(request, curso_id):
     context = {"curso": curso_data}
 
     return render(request, "cursos/curso_detail.html", context=context) 
+
+
+
+def create_curso(request):
+    if request.method == "POST":
+        form = CursoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("curso_list")
+    else:
+        form = CursoForm()
+
+    context = {"titulo": "Nuevo Curso", "form": form, "submit": "Crear Curso"}
+    return render(request, "cursos/curso_form.html", context)
+
+
+def update_curso(request, curso_id):
+    curso = Curso.objects.get(id=curso_id)
+    if request.method == "POST":
+        form = CursoForm(request.POST, instance=curso)
+        if form.is_valid():
+            form.save()
+            return redirect("curso_list")
+    else:
+        form = CursoForm(instance=curso)
+
+    context = {"titulo": "Editar Curso", "form": form, "submit": "Actualizar Curso"}
+    return render(request, "cursos/curso_form.html", context)
+
+def delete_curso(request, curso_id):
+    curso = Curso.objects.get(id=curso_id)
+    curso.delete()
+    return redirect("curso_list")
+
+
+        
