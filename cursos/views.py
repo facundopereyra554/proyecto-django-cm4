@@ -26,7 +26,7 @@ def home(request):
             "id": curso.id,
             "nombre": curso.nombre,
             "descripcion": curso.descripcion,
-            "imagen": f"img/{curso.categoria.color}.png",
+            "imagen": curso.imagen.url,
         }
         cursos_destacados_data.append(curso_data)
 
@@ -49,13 +49,12 @@ def curso_list(request):
             "id": curso.id,
             "nombre": curso.nombre,
             "description": curso.descripcion,
-            "imagen": f"img/{curso.categoria.color}.png",
+            "imagen": curso.imagen.url,
             "precio": curso.precio,
             "fecha_publicacion": curso.fecha_publicacion,
             "categoria": curso.categoria.nombre,
             "duracion": curso.duracion,
             "num_estudiantes": curso.estudiantes.count(),
-            "image" : f"img/{curso.categoria.color}.png", 
         }
         cursos_data.append(curso_data)
 
@@ -77,14 +76,14 @@ def curso_detail(request, curso_id):
         "id": curso.id,
         "nombre": curso.nombre,
         "descripcion": curso.descripcion,
-        "imagen": f"img/{curso.categoria.color}.png",
+        "imagen": curso.imagen.url,
         "precio": curso.precio,
         "fecha_prublicacion": curso.fecha_publicacion,
         "categoria": curso.categoria.nombre,
         "duracion": curso.duracion,
         "num_estudiantes": curso.estudiantes.count(),
         "instructor": curso.instructor,
-        "imagen_instructor": f'img/{curso.instructor.nombre.split(" ")[0]}.png',
+        "imagen_instructor": curso.instructor.avatar.url if curso.instructor else None,
     }
     context = {"curso": curso_data}
 
@@ -94,7 +93,7 @@ def curso_detail(request, curso_id):
 
 def create_curso(request):
     if request.method == "POST":
-        form = CursoForm(request.POST)
+        form = CursoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect("curso_list")
@@ -108,7 +107,7 @@ def create_curso(request):
 def update_curso(request, curso_id):
     curso = Curso.objects.get(id=curso_id)
     if request.method == "POST":
-        form = CursoForm(request.POST, instance=curso)
+        form = CursoForm(request.POST,request.FILES, instance=curso)
         if form.is_valid():
             form.save()
             return redirect("curso_list")

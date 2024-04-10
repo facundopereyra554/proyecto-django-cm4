@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 class Estudiante(models.Model):
     nombre = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
+    avatar = models.ImageField(upload_to="estudiante", default="estudiante/fallback.png", blank=True)
 
     def __str__(self):
         return self.nombre
@@ -14,6 +15,7 @@ class Estudiante(models.Model):
 class Instructor(models.Model):
     nombre = models.CharField(max_length=100)
     bio = models.TextField()
+    avatar = models.ImageField(upload_to="instructor", default="instructor/fallback.png", blank=True)
 
     def __str__(self):
         return self.nombre
@@ -53,6 +55,7 @@ class Curso(models.Model):
         Instructor, on_delete=models.SET_NULL, null=True, blank=True
     )
     estudiantes = models.ManyToManyField(Estudiante, through="Inscripcion")
+    imagen = models.ImageField(upload_to="cursos", default="cursos/fallback.png", blank=True)
 
     def __str__(self):
         return self.nombre + " - " + str(self.fecha_publicacion)

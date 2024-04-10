@@ -32,6 +32,7 @@ class CursoForm(forms.ModelForm):
             "duracion",
             "estado",
             "destacado",
+            "imagen",
         ]
         labels = {
             "nombre": "Nombre del curso",
@@ -43,6 +44,7 @@ class CursoForm(forms.ModelForm):
             "duracion": "Duración del curso",
             "estado": "Estado del curso",
             "destacado": "Destacado",
+            "imagen": "Imagen del curso",
         }
 
         widgets = {
@@ -53,6 +55,7 @@ class CursoForm(forms.ModelForm):
             "duracion": forms.TimeInput(attrs={"class": "form-control", "placeholder": "Ingrese duración del curso",}),
             "estado": forms.Select(attrs={"class": "form-control",}),
             "destacado": forms.CheckboxInput(attrs={"class": "form-check-input",}),
+            "imagen": forms.FileInput(attrs={"class": "form-control",}),
         }
 
         
