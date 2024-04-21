@@ -1,5 +1,6 @@
 from ..models import Curso, Instructor, Categoria
 from django import forms
+from tinymce.widgets import TinyMCE
 
 
 class CursoForm(forms.ModelForm):
@@ -25,6 +26,7 @@ class CursoForm(forms.ModelForm):
         fields = [
             "nombre",
             "descripcion",
+            "contenido",
             "precio",
             "fecha_publicacion",
             "instructor",
@@ -49,7 +51,8 @@ class CursoForm(forms.ModelForm):
 
         widgets = {
             "nombre": forms.TextInput(attrs={"class": "form-control", "placeholder": "Ingrese nombre del curso",}),
-            "descripcion": forms.Textarea(attrs={"class": "form-control", "placeholder": "Ingrese descripción del curso",}),
+            "descripcion": forms.TextInput(attrs={"class": "form-control", "placeholder": "Ingrese descripción del curso",}),
+            "contenido": TinyMCE(attrs={"placeholder": "Ingrese el contenido",}),
             "precio": forms.NumberInput(attrs={"class": "form-control", "placeholder": "Ingrese precio del curso",}),
             "fecha_publicacion": forms.NumberInput(attrs={"class": "form-control", "type": "date", "placeholder": "Ingrese fecha de publicación",}),
             "duracion": forms.TimeInput(attrs={"class": "form-control", "placeholder": "Ingrese duración del curso",}),
