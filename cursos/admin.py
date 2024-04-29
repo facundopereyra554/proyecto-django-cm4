@@ -3,6 +3,7 @@ from .models import Curso, Categoria, Instructor, Estudiante, Inscripcion
 from tinymce.widgets import TinyMCE
 from django.db import models
 
+
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):
     list_display = ("nombre", "precio", "fecha_publicacion", "categoria", "instructor")
@@ -12,11 +13,28 @@ class CursoAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             "Información general",
-            {"fields": ("nombre", "descripcion","contenido", "precio", "fecha_publicacion")},
+            {
+                "fields": (
+                    "nombre",
+                    "descripcion",
+                    "contenido",
+                    "precio",
+                    "fecha_publicacion",
+                )
+            },
         ),
         (
             "Detalles del curso",
-            {"fields": ("categoria", "instructor", "duracion", "estado", "destacado", "imagen")},
+            {
+                "fields": (
+                    "categoria",
+                    "instructor",
+                    "duracion",
+                    "estado",
+                    "destacado",
+                    "imagen",
+                )
+            },
         ),
     )
     formfield_overrides = {
